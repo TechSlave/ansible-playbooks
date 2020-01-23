@@ -1,0 +1,6 @@
+---
+- name: Set standalone.xml by template
+  template:
+    src: templates/standalone.xml.j2
+    dest: "{{instance_path}}/standalone/configuration/standalone.xml"
+...

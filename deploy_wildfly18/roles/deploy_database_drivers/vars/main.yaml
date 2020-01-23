@@ -1,0 +1,6 @@
+---
+      drivers_folder: /opt/scripts/release/driver
+      db2_folder: ibm/
+      sqlserver_folder: main/
+      sqlserver: mssql-jdbc-7.4.1.jre8.jar
+...

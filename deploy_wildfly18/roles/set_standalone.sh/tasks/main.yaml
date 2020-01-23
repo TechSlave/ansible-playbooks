@@ -1,0 +1,47 @@
+---
+#Change Log name and export MB variables
+- name: Set standalone.sh by template
+  template:
+    src: templates/standalone.sh.j2
+    dest: "{{ instance_path }}/bin/standalone.sh"
+
+- name: Set MB Variables for Brazil
+  lineinfile:
+    path: "{{ instance_path }}/bin/standalone.sh"
+    insertafter: '#!/bin/sh'
+    line: "{{ item }}"
+  when: country == "BR"
+  with_items:
+    - 'export WEBMB_COUNTRY=BR'
+    - 'export WEBMB_ENV=BRPD'
+
+- name: Set MB Variables for Costa Rica
+  lineinfile:
+    path: "{{ instance_path }}/bin/standalone.sh"
+    insertafter: '#!/bin/sh'
+    line: "{{ item }}"
+  when: country == "CR"
+  with_items:
+    - 'export WEBMB_COUNTRY=CR'
+    - 'export WEBMB_ENV=CRJDEPD'
+
+- name: Set MB Variables for Panama
+  lineinfile:
+    path: "{{ instance_path }}/bin/standalone.sh"
+    insertafter: '#!/bin/sh'
+    line: "{{ item }}"
+  when: country == "PA"
+  with_items:
+    - 'export WEBMB_COUNTRY=PA'
+    - 'export WEBMB_ENV=PAJDEPD'
+
+- name: Set MB Variables for Porto Rico
+  lineinfile:
+    path: "{{ instance_path }}/bin/standalone.sh"
+    insertafter: '#!/bin/sh'
+    line: "{{ item }}"
+  when: country == "PR"
+  with_items:
+    - 'export WEBMB_COUNTRY=PR'
+    - 'export WEBMB_ENV=WEBPRPD'
+...

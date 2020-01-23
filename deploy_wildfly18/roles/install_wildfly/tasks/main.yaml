@@ -1,0 +1,13 @@
+---
+- name: Create install folder
+  file:
+    path: "{{ instance_path }}"
+    state: directory
+
+- name: Unpackage package
+  unarchive:
+    remote_src: true
+    src: "{{ pkg_path }}"
+    dest: "{{ instance_path }}"
+    extra_opts: 
+    - --strip-components=1

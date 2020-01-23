@@ -1,0 +1,26 @@
+---
+- name: Install and configure SNMP
+  hosts: webservers
+  become: yes
+  vars:
+    package: net-snmp
+    remote_dir: /etc/snmp
+    template_file: snmpd.conf
+  tasks:
+  - name: Install net-snmp package
+    yum:
+      name: "{{ package }}"
+      state: latest
+  - name: Set snmp.conf
+    copy:
+      src: "{{ template_file }}"
+      dest: "{{ remote_dir }}"
+      owner: root
+      mode: '0777'
+      
+  - name: Enable and start service
+    service:
+      name: snmpd
+      state: started
+      enabled: yes
+...

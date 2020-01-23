@@ -1,0 +1,86 @@
+---
+- hosts: web
+  remote_user: root
+  gather_facts: false
+  vars_prompt:
+    - name: server_instance
+      prompt: "Instance Name"
+      private: no
+    - name: country
+      prompt: "Country <e.g.: BR>"
+      private: no
+      default: BR
+    - name: server_offset
+      prompt: "Port Offset"
+      private: no
+    - name: service_name
+      prompt: "Datadog Service Name"
+      private: no
+      default: wbr/security
+    - name: datadog_agent
+      prompt: "Datadog Agent <yes/no>"
+      default: yes
+      private: no
+    - name: heap_min
+      prompt: "Heap - Minimal <e.g.: 8g> "
+      default: 2g
+      private: no
+    - name: heap_max
+      prompt: "Heap - Maximun <e.g.: 16g> "
+      default: 2g
+      private: no
+    - name: metaspace
+      prompt: "Metaspace <e.g.: 4g> "
+      default: 256m
+      private: no
+  
+  vars:
+    - old_instance_path: "/opt/wildfly10-{{ server_instance }}"
+    - instance_path: "/opt/wf18-{{ server_instance }}"
+
+  tasks: 
+##Install Wildfly 18.0.1 on /opt - OK
+  - name: Install Wildfly 18.0.1.Final
+    include_role:
+      name: install_wildfly
+
+##Configure Wildfly settings - OK
+  - name: Create and set Standalone.xml
+    include_role:
+      name: set_standalone.xml
+
+##Configure JVM settings - OK
+  - name: Create and set Standalone.conf
+    include_role:
+      name: set_standalone.conf
+
+##Configure Wildfly startup - OK
+  - name: Create and set Startup.sh
+    include_role:
+      name: set_startup.sh
+
+##Change log name and include exports on Wildfly startup script - OK
+  - name: Include Log and export info on standalone.sh
+    include_role:
+      name: set_standalone.sh
+
+##Create symbolic links for Log folder and User access configuration - OK
+  - name: Set Log folder and User Access
+    include_role:
+      name: log_and_access_links
+      vars_from: links.yaml
+
+##Copy drivers to modules folder
+  - name: Deploy Database Drivers
+    include_role:
+      name: deploy_database_drivers
+      
+##Copy static page content to welcome-content - OK
+  - name: Copy static page content to new instance
+    include_role:
+      name: welcome_content
+
+##Copy application files and deploy them
+  - name: Deploy apps from old instance
+    include_role:
+      name: deploy
