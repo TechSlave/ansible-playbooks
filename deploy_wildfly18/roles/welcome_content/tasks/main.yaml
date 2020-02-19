@@ -1,10 +1,4 @@
 ---
 - name: Copy welcome-content to same folder on new instance.
   shell: "cp -aRf {{ old_instance_path }}/welcome-content {{ instance_path }}/ "
-#Teste>>>>  shell: "cp -aRf /opt/wildfly10-wbr-01/welcome-content {{ instance_path }}/"
-
-#- name: move  deploy folders from old to new instance
-#  shell: "[ -f ~/exemplo.txt ] && echo “Arquivo existe.” || touch ~/exemplo.txt"
-#    src: "{{ old_instance_path }}/standalone/deployments"
-#    dest: "{{ instance_path }}/standalone/deployments"
 ...

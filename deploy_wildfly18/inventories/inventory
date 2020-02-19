@@ -3,3 +3,6 @@ ansible_connection=ssh
 
 [web]
 10.4.14.87 hostname=BRHWWW01 ansible_ssh_pass=martin123
+
+[py]
+brpwwwpy01 ansible_ssh_pass=martin123
